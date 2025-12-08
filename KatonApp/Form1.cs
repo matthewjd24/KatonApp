@@ -4,11 +4,13 @@ using System.Xml.Linq;
 
 namespace KatonApp
 {
-    public partial class Form1 : Form {
+    public partial class Form1 : Form
+    {
+        public static int versionNum = 1;
         int? lotNumInt;
-        //public static string dataFolder = @"Z:\Zeta\Katon App Data";
-        public static string lotsFolder = @"C:\Projects\Katon App\Lots";
-        public string baseFolder = @"C:\Projects\Katon App";
+        public static string lotsFolder = @"Z:\Zeta\Katon App\Lots";
+        //public static string lotsFolder = @"C:\Projects\Katon App\Lots";
+        //public string baseFolder = @"C:\Projects\Katon App";
         public Form1() {
             InitializeComponent();
         }
@@ -43,19 +45,45 @@ namespace KatonApp
             //lineLabel.Text = form.line;
             textBox1.Text = form.lotNumString.Replace("K", "");
             Go_Click(null, null);
+            Form1_Load_1(null, null);
         }
 
         private void Form1_Load_1(object sender, EventArgs e) {
+            string versionFile = @"Z:\Zeta\Katon App\version.txt";
+            List<string> versionLines = File.ReadAllLines(versionFile).ToList();
+            int version = int.Parse(versionLines[0]);
+            Debug.WriteLine("version: " + version);
+            if(version > versionNum) {
+                Process.Start(@"C:\Katon App\Updater\Updater.exe");
+                Application.Exit();
+            }
+
+            string[] matches = Directory.GetFiles(lotsFolder, "*");
 
             DataTable table = new DataTable();
 
             // define columns
-            table.Columns.Add("Id", typeof(int));
-            table.Columns.Add("Name", typeof(string));
+            table.Columns.Add("Lot", typeof(string));
+            table.Columns.Add("Part Number", typeof(string));
+            table.Columns.Add("Part Name", typeof(string));
+            table.Columns.Add("Qty", typeof(int));
+            table.Columns.Add("Customer", typeof(string));
+            table.Columns.Add("Completed", typeof(string));
 
-            // add rows
-            table.Rows.Add(1, "Alpha");
-            table.Rows.Add(2, "Beta");
+            foreach (var x in matches) {
+                string name = Path.GetFileName(x).Replace(".txt", "");
+                var lines = File.ReadAllLines(x);
+                DataRow row = table.NewRow();
+                row["Lot"] = name;
+                if (RemoveEverythingAfterSlashSlash(lines[17]) == "1") row["Completed"] = "Yes";
+                else row["Completed"] = "No";
+                row["Qty"] = int.Parse(RemoveEverythingAfterSlashSlash(lines[0]));
+                row["Part Number"] = RemoveEverythingAfterSlashSlash(lines[1]);
+                row["Customer"] = RemoveEverythingAfterSlashSlash(lines[4]);
+                row["Part Name"] = RemoveEverythingAfterSlashSlash(lines[5]);
+
+                table.Rows.Add(row);
+            }
 
             // bind to grid
             dataGridView1.DataSource = table;
@@ -97,7 +125,7 @@ namespace KatonApp
 
             int materialOption = int.Parse(RemoveEverythingAfterSlashSlash(lines[6]));
             if (materialOption == 1) radioButton1.Checked = true;
-            else if(materialOption == 2) radioButton2.Checked = true;
+            else if (materialOption == 2) radioButton2.Checked = true;
             else if (materialOption == 3) radioButton3.Checked = true;
             else if (materialOption == 4) radioButton4.Checked = true;
             else {
@@ -112,7 +140,7 @@ namespace KatonApp
             matSpecs = matSpecs.Replace("&&", Environment.NewLine);
             textBox2.Text = matSpecs;
             string camOption = RemoveEverythingAfterSlashSlash(lines[9]);
-            if(camOption == "1") radioButton5.Checked = true;
+            if (camOption == "1") radioButton5.Checked = true;
             else if (camOption == "2") radioButton6.Checked = true;
             else {
                 radioButton5.Checked = false;
@@ -131,10 +159,22 @@ namespace KatonApp
             string finishingInstructions = RemoveEverythingAfterSlashSlash(lines[15]);
             finishingInstructions = finishingInstructions.Replace("&&", Environment.NewLine);
             textBox5.Text = finishingInstructions;
+            string cOfCRequired = RemoveEverythingAfterSlashSlash(lines[16]);
+            checkBox3.Checked = cOfCRequired == "1";
+            string completed = RemoveEverythingAfterSlashSlash(lines[17]);
+            button9.Enabled = completed != "1";
+            if (completed == "1") {
+                label4.BackColor = System.Drawing.Color.PaleGreen;
+                label4.Text = "Completed";
+            }
+            else {
+                label4.BackColor = SystemColors.Control;
+                label4.Text = "";
+            }
         }
 
         string RemoveEverythingAfterSlashSlash(string input) {
-            int index = input.IndexOf("//");
+            int index = input.IndexOf("  //");
             if (index >= 0) {
                 return input.Substring(0, index).Trim();
             }
@@ -155,7 +195,6 @@ namespace KatonApp
             else
                 textBox1.Text = textBox7.Text;
         }
-
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e) {
             //if (tabControl1.SelectedIndex == 0)
@@ -192,12 +231,16 @@ namespace KatonApp
             lines[13] = comboBox2.SelectedIndex + "  // In-process inspection";
             lines[14] = textBox4.Text.Replace(Environment.NewLine, "&&") + "  // Associated controlled inspection forms";
             lines[15] = textBox5.Text.Replace(Environment.NewLine, "&&") + "  // Finishing instructions";
+            int cOfCRequired = checkBox3.Checked ? 1 : 0;
+            lines[16] = cOfCRequired.ToString() + "  // cert of conformance required";
+            lines[17] = button9.Enabled ? "0" : "1" + "  // is completed";
 
             File.WriteAllText(fileName, "");
             File.WriteAllLines(fileName, lines.ToArray());
             button3.Enabled = false;
             timer1.Enabled = true;
             timer1.Start();
+            Form1_Load_1(null, null);
         }
 
         private void timer1_Tick(object sender, EventArgs e) {
@@ -213,6 +256,41 @@ namespace KatonApp
                 zeroes += "0";
             }
             return "K" + zeroes + lotNum;
+        }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
+            if (e.RowIndex < 0) return; // ignore header clicks
+
+            var value = dataGridView1.Rows[e.RowIndex].Cells[0].Value;
+            textBox1.Text = value.ToString().Substring(1);
+            Go_Click(null, null);
+        }
+
+        private void button9_Click(object sender, EventArgs e) {
+            button9.Enabled = false;
+        }
+
+        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
+            if (e.RowIndex < 0) return;
+            var grid = (DataGridView)sender;
+
+            // Target a specific column by its Name
+            if (grid.Columns[e.ColumnIndex].DataPropertyName == "Completed") {
+                var value = grid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+
+                if (value != null && value.ToString() == "Yes") {
+                    e.CellStyle.BackColor = Color.LightGreen;
+                }
+                else {
+                    e.CellStyle.BackColor = Color.White;
+                }
+            }
+        }
+
+        private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
+            foreach (DataGridViewColumn col in dataGridView1.Columns) {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
     }
 }
