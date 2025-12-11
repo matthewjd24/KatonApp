@@ -23,7 +23,7 @@ namespace KatonApp
         private void Save_Click(object sender, EventArgs e) {
             string fileName = Form1.lotsFolder + @"\" + lotNumString + ".txt";
             if (!File.Exists(fileName)) {
-                string[] emptyLines = new string[26];
+                string[] emptyLines = new string[35];
                 emptyLines[6] = "0";
                 emptyLines[7] = "0";
                 emptyLines[12] = "-1";

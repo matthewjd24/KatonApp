@@ -1,0 +1,26 @@
+40  // quantity
+12-02-P0189-0001  // part number
+22392  // purchase order
+5  // purchase order line
+NRT  // customer
+Spring Retainer  // part name
+0  // material option
+0  // certifications required
+Black UHMW&&&&Stock - .500" x 24" x 48" slab&&&&  // material specs text box
+1  // CAM option
+  // CAM file path
+  // Setup or CAM instructions
+2  // FAI type
+2  // In-process inspection
+  // Associated controlled inspection forms
+  // Finishing instructions
+0  // cert of conformance required
+1  // is completed
+
+
+
+
+
+
+
+

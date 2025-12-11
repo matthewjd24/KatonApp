@@ -1,0 +1,26 @@
+1  // quantity
+  // part number
+569930  // purchase order
+5  // purchase order line
+HP  // customer
+Pallet Gauge Block  // part name
+1  // material option
+0  // certifications required
+440C Stainless  // material specs text box
+2  // CAM option
+  // CAM file path
+  // Setup or CAM instructions
+1  // FAI type
+0  // In-process inspection
+  // Associated controlled inspection forms
+  // Finishing instructions
+0  // cert of conformance required
+0
+
+
+
+
+
+
+
+

@@ -1,0 +1,26 @@
+440  // quantity
+  // part number
+569930  // purchase order
+3  // purchase order line
+HP  // customer
+2507 Sleeved Spring Spacer  // part name
+2  // material option
+0  // certifications required
+.3125" delrin rods  // material specs text box
+2  // CAM option
+Fusion 360/Katon Precision/Haas ST20Y/HP  // CAM file path
+  // Setup or CAM instructions
+1  // FAI type
+1  // In-process inspection
+  // Associated controlled inspection forms
+  // Finishing instructions
+0  // cert of conformance required
+1  // is completed
+
+
+
+
+
+
+
+

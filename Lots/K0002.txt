@@ -1,0 +1,26 @@
+220  // quantity
+  // part number
+569930  // purchase order
+2  // purchase order line
+HP  // customer
+Zone 2 Uni Pallet Base  // part name
+2  // material option
+0  // certifications required
+Anti-static Delrin - .75" x 24" x 48" slabs&&Cut to rectangles - 4.19" x 5.08"&&  // material specs text box
+2  // CAM option
+Z:\HP Work\569930\BC\2501_Zone2_Uni_Pallet_Base_022823.bbcd  // CAM file path
+Machine 1 - 3-axis&&2 vises w/talon jaws&&vise 1 torque - xx&&vise 2 torque -xx&&At M00, looses vise 2 and tighten to hand tight&&&&Machine 2 - 5-axis&&clamp using center hole&&At M00, add 8x M3 screws and remove clamp  // Setup or CAM instructions
+1  // FAI type
+1  // In-process inspection
+  // Associated controlled inspection forms
+  // Finishing instructions
+0  // cert of conformance required
+0
+
+
+
+
+
+
+
+

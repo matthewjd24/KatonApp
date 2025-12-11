@@ -1,0 +1,26 @@
+40  // quantity
+12-02-P0187-0001  // part number
+22392  // purchase order
+1  // purchase order line
+NRT  // customer
+Venturi Slip On Cup Adapter  // part name
+2  // material option
+0  // certifications required
+2.625" diameter 6061, 2.8 LOC  // material specs text box
+1  // CAM option
+  // CAM file path
+OP1 - Haas Lathe (F360)&&OP2 - 3-axis mill (BC)&&OP3 - 5-axis mill (F360)  // Setup or CAM instructions
+2  // FAI type
+2  // In-process inspection
+  // Associated controlled inspection forms
+Hard Black Anodize  // Finishing instructions
+0  // cert of conformance required
+0
+
+
+
+
+
+
+
+

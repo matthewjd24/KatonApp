@@ -8,9 +8,10 @@ namespace KatonApp
     {
         public static int versionNum = 1;
         int? lotNumInt;
-        public static string lotsFolder = @"Z:\Zeta\Katon App\Lots";
-        //public static string lotsFolder = @"C:\Projects\Katon App\Lots";
-        //public string baseFolder = @"C:\Projects\Katon App";
+        //public static string lotsFolder = @"Z:\Zeta\Katon App\Lots";
+        public static string lotsFolder = @"C:\Users\USER\Documents\GitHub\KatonApp\Lots";
+
+        DataView view;
         public Form1() {
             InitializeComponent();
         }
@@ -49,13 +50,16 @@ namespace KatonApp
         }
 
         private void Form1_Load_1(object sender, EventArgs e) {
-            string versionFile = @"Z:\Zeta\Katon App\version.txt";
-            List<string> versionLines = File.ReadAllLines(versionFile).ToList();
-            int version = int.Parse(versionLines[0]);
-            Debug.WriteLine("version: " + version);
-            if(version > versionNum) {
-                Process.Start(@"C:\Katon App\Updater\Updater.exe");
-                Application.Exit();
+            if (lotsFolder.Contains(@"Z:\")) {
+                // only check for update if connected to the network drive
+                string versionFile = @"Z:\Zeta\Katon App\version.txt";
+                List<string> versionLines = File.ReadAllLines(versionFile).ToList();
+                int version = int.Parse(versionLines[0]);
+                Debug.WriteLine("version: " + version);
+                if (version > versionNum) {
+                    Process.Start(@"C:\Katon App\Updater\Updater.exe");
+                    Application.Exit();
+                }
             }
 
             string[] matches = Directory.GetFiles(lotsFolder, "*");
@@ -68,6 +72,7 @@ namespace KatonApp
             table.Columns.Add("Part Name", typeof(string));
             table.Columns.Add("Qty", typeof(int));
             table.Columns.Add("Customer", typeof(string));
+            table.Columns.Add("PO", typeof(string));
             table.Columns.Add("Completed", typeof(string));
 
             foreach (var x in matches) {
@@ -75,24 +80,35 @@ namespace KatonApp
                 var lines = File.ReadAllLines(x);
                 DataRow row = table.NewRow();
                 row["Lot"] = name;
-                if (RemoveEverythingAfterSlashSlash(lines[17]) == "1") row["Completed"] = "Yes";
+                if (RemoveTextComment(lines[17]) == "1") row["Completed"] = "Yes";
                 else row["Completed"] = "No";
-                row["Qty"] = int.Parse(RemoveEverythingAfterSlashSlash(lines[0]));
-                row["Part Number"] = RemoveEverythingAfterSlashSlash(lines[1]);
-                row["Customer"] = RemoveEverythingAfterSlashSlash(lines[4]);
-                row["Part Name"] = RemoveEverythingAfterSlashSlash(lines[5]);
+                row["Qty"] = int.Parse(RemoveTextComment(lines[0]));
+                row["Part Number"] = RemoveTextComment(lines[1]);
+                row["Customer"] = RemoveTextComment(lines[4]);
+                row["Part Name"] = RemoveTextComment(lines[5]);
+                row["PO"] = RemoveTextComment(lines[2]);
 
                 table.Rows.Add(row);
             }
 
+            view = new DataView(
+                table,
+                "Completed <> 'Yes'",
+                "Lot ASC",
+                DataViewRowState.CurrentRows
+            );
+
             // bind to grid
-            dataGridView1.DataSource = table;
+            dataGridView1.DataSource = view;
         }
 
         private void SetCAM_Click(object sender, EventArgs e) {
+            Button btn = (Button)sender;
             OpenFileDialog ofd = new OpenFileDialog();
             if (ofd.ShowDialog() == DialogResult.OK) {
-                textBox6.Text = ofd.FileName;
+                if (btn == button4) textBox6.Text = ofd.FileName;
+                else if (btn == button10) textBox8.Text = ofd.FileName;
+                else if (btn == button11) textBox13.Text = ofd.FileName;
             }
         }
 
@@ -114,16 +130,16 @@ namespace KatonApp
             tabControl1.SelectedIndex = 1;   // activates the second tab
             lotNumInt = int.Parse(lotNumber);
             lotLabel.Text = "K" + lotNumber;
-            qtyLabel.Text = RemoveEverythingAfterSlashSlash(lines[0]);
-            partNumberLabel.Text = RemoveEverythingAfterSlashSlash(lines[1]);
-            poLabel.Text = RemoveEverythingAfterSlashSlash(lines[2]);
-            lineLabel.Text = RemoveEverythingAfterSlashSlash(lines[3]);
-            customerLabel.Text = RemoveEverythingAfterSlashSlash(lines[4]);
-            partNameLabel.Text = RemoveEverythingAfterSlashSlash(lines[5]);
+            qtyLabel.Text = RemoveTextComment(lines[0]);
+            partNumberLabel.Text = RemoveTextComment(lines[1]);
+            poLabel.Text = RemoveTextComment(lines[2]);
+            lineLabel.Text = RemoveTextComment(lines[3]);
+            customerLabel.Text = RemoveTextComment(lines[4]);
+            partNameLabel.Text = RemoveTextComment(lines[5]);
             button7.Enabled = true;
             button3.Enabled = true;
 
-            int materialOption = int.Parse(RemoveEverythingAfterSlashSlash(lines[6]));
+            int materialOption = int.Parse(RemoveTextComment(lines[6]));
             if (materialOption == 1) radioButton1.Checked = true;
             else if (materialOption == 2) radioButton2.Checked = true;
             else if (materialOption == 3) radioButton3.Checked = true;
@@ -134,34 +150,36 @@ namespace KatonApp
                 radioButton3.Checked = false;
                 radioButton4.Checked = false;
             }
-            int certsRequired = int.Parse(RemoveEverythingAfterSlashSlash(lines[7]));
+            int certsRequired = int.Parse(RemoveTextComment(lines[7]));
             checkBox1.Checked = certsRequired == 1;
-            string matSpecs = RemoveEverythingAfterSlashSlash(lines[8]);
+            string matSpecs = RemoveTextComment(lines[8]);
             matSpecs = matSpecs.Replace("&&", Environment.NewLine);
             textBox2.Text = matSpecs;
-            string camOption = RemoveEverythingAfterSlashSlash(lines[9]);
+            string camOption = RemoveTextComment(lines[9]);
             if (camOption == "1") radioButton5.Checked = true;
             else if (camOption == "2") radioButton6.Checked = true;
             else {
                 radioButton5.Checked = false;
                 radioButton6.Checked = false;
             }
-            textBox6.Text = RemoveEverythingAfterSlashSlash(lines[10]);
-            string setupInstructions = RemoveEverythingAfterSlashSlash(lines[11]);
+            textBox6.Text = RemoveTextComment(lines[10]);
+            textBox8.Text = RemoveTextComment(lines[18]);
+            textBox13.Text = RemoveTextComment(lines[19]);
+            string setupInstructions = RemoveTextComment(lines[11]);
             setupInstructions = setupInstructions.Replace("&&", Environment.NewLine);
             textBox3.Text = setupInstructions;
 
-            comboBox1.SelectedIndex = int.Parse(RemoveEverythingAfterSlashSlash(lines[12]));
-            comboBox2.SelectedIndex = int.Parse(RemoveEverythingAfterSlashSlash(lines[13]));
-            string associatedForms = RemoveEverythingAfterSlashSlash(lines[14]);
+            comboBox1.SelectedIndex = int.Parse(RemoveTextComment(lines[12]));
+            comboBox2.SelectedIndex = int.Parse(RemoveTextComment(lines[13]));
+            string associatedForms = RemoveTextComment(lines[14]);
             associatedForms = associatedForms.Replace("&&", Environment.NewLine);
             textBox4.Text = associatedForms;
-            string finishingInstructions = RemoveEverythingAfterSlashSlash(lines[15]);
+            string finishingInstructions = RemoveTextComment(lines[15]);
             finishingInstructions = finishingInstructions.Replace("&&", Environment.NewLine);
             textBox5.Text = finishingInstructions;
-            string cOfCRequired = RemoveEverythingAfterSlashSlash(lines[16]);
+            string cOfCRequired = RemoveTextComment(lines[16]);
             checkBox3.Checked = cOfCRequired == "1";
-            string completed = RemoveEverythingAfterSlashSlash(lines[17]);
+            string completed = RemoveTextComment(lines[17]);
             button9.Enabled = completed != "1";
             if (completed == "1") {
                 label4.BackColor = System.Drawing.Color.PaleGreen;
@@ -171,9 +189,10 @@ namespace KatonApp
                 label4.BackColor = SystemColors.Control;
                 label4.Text = "";
             }
+            button13.Tag = RemoveTextComment(lines[20]);
         }
 
-        string RemoveEverythingAfterSlashSlash(string input) {
+        string RemoveTextComment(string input) {
             int index = input.IndexOf("  //");
             if (index >= 0) {
                 return input.Substring(0, index).Trim();
@@ -225,7 +244,7 @@ namespace KatonApp
             if (radioButton5.Checked) selectedCamOption = 1;
             else if (radioButton6.Checked) selectedCamOption = 2;
             lines[9] = selectedCamOption.ToString() + "  // CAM option";
-            lines[10] = textBox6.Text + "  // CAM file path";
+            lines[10] = textBox6.Text + "  // op 1 file path";
             lines[11] = textBox3.Text.Replace(Environment.NewLine, "&&") + "  // Setup or CAM instructions";
             lines[12] = comboBox1.SelectedIndex + "  // FAI type";
             lines[13] = comboBox2.SelectedIndex + "  // In-process inspection";
@@ -234,6 +253,9 @@ namespace KatonApp
             int cOfCRequired = checkBox3.Checked ? 1 : 0;
             lines[16] = cOfCRequired.ToString() + "  // cert of conformance required";
             lines[17] = button9.Enabled ? "0" : "1" + "  // is completed";
+            lines[18] = textBox8.Text + "  // op 2 file path";
+            lines[19] = textBox13.Text + "  // op 3 file path";
+            lines[20] = button13.Tag.ToString() + "  // drawing file path";
 
             File.WriteAllText(fileName, "");
             File.WriteAllLines(fileName, lines.ToArray());
@@ -288,8 +310,37 @@ namespace KatonApp
         }
 
         private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
-            foreach (DataGridViewColumn col in dataGridView1.Columns) {
-                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+            //foreach (DataGridViewColumn col in dataGridView1.Columns) {
+            //    col.SortMode = DataGridViewColumnSortMode.NotSortable;
+            //}
+            dataGridView1.Columns[1].MinimumWidth = 160;
+            dataGridView1.Columns[2].MinimumWidth = 220;
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e) {
+            if (checkBox2.Checked) {
+                view.RowFilter = "";
+            }
+            else {
+                view.RowFilter = "Completed <> 'Yes'";
+            }
+        }
+
+        private void button13_Click(object sender, EventArgs e) {
+            Button btn = (Button)sender;
+            if (btn.Tag != null && btn.Tag.ToString().Length > 0) {
+                // open file
+                var p = new Process();
+                p.StartInfo.FileName = btn.Tag.ToString();
+                p.StartInfo.UseShellExecute = true;
+                p.Start();
+            }
+            else {
+                // set file
+                OpenFileDialog ofd = new OpenFileDialog();
+                if (ofd.ShowDialog() == DialogResult.OK) {
+                    btn.Tag = ofd.FileName;
+                }
             }
         }
     }

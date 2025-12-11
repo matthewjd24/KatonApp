@@ -1,0 +1,26 @@
+220  // quantity
+  // part number
+569930  // purchase order
+4  // purchase order line
+HP  // customer
+Prox Flag  // part name
+2  // material option
+0  // certifications required
+.250" O1 tool steel rods  // material specs text box
+2  // CAM option
+  // CAM file path
+  // Setup or CAM instructions
+1  // FAI type
+1  // In-process inspection
+  // Associated controlled inspection forms
+E-Nickel  // Finishing instructions
+0  // cert of conformance required
+1  // is completed
+
+
+
+
+
+
+
+

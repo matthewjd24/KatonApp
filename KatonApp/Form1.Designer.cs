@@ -30,6 +30,7 @@
             components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             button1 = new Button();
             textBox1 = new TextBox();
@@ -47,6 +48,12 @@
             qtyLabel = new Label();
             label12 = new Label();
             groupBox2 = new GroupBox();
+            button11 = new Button();
+            label8 = new Label();
+            textBox13 = new TextBox();
+            button10 = new Button();
+            label5 = new Label();
+            textBox8 = new TextBox();
             button4 = new Button();
             label23 = new Label();
             textBox6 = new TextBox();
@@ -89,6 +96,10 @@
             button6 = new Button();
             pictureBox2 = new PictureBox();
             tabPage2 = new TabPage();
+            button13 = new Button();
+            groupBox6 = new GroupBox();
+            label9 = new Label();
+            textBox14 = new TextBox();
             label4 = new Label();
             button9 = new Button();
             button7 = new Button();
@@ -104,6 +115,7 @@
             radioButton2 = new RadioButton();
             radioButton1 = new RadioButton();
             timer1 = new System.Windows.Forms.Timer(components);
+            button12 = new Button();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             groupBox3.SuspendLayout();
@@ -113,6 +125,7 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             tabPage2.SuspendLayout();
+            groupBox6.SuspendLayout();
             groupBox4.SuspendLayout();
             groupBox1.SuspendLayout();
             SuspendLayout();
@@ -254,6 +267,13 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(button12);
+            groupBox2.Controls.Add(button11);
+            groupBox2.Controls.Add(label8);
+            groupBox2.Controls.Add(textBox13);
+            groupBox2.Controls.Add(button10);
+            groupBox2.Controls.Add(label5);
+            groupBox2.Controls.Add(textBox8);
             groupBox2.Controls.Add(button4);
             groupBox2.Controls.Add(label23);
             groupBox2.Controls.Add(textBox6);
@@ -265,10 +285,64 @@
             groupBox2.Margin = new Padding(3, 4, 3, 4);
             groupBox2.Name = "groupBox2";
             groupBox2.Padding = new Padding(3, 4, 3, 4);
-            groupBox2.Size = new Size(360, 475);
+            groupBox2.Size = new Size(360, 653);
             groupBox2.TabIndex = 18;
             groupBox2.TabStop = false;
             groupBox2.Text = "Job Setup/CAM";
+            // 
+            // button11
+            // 
+            button11.Location = new Point(277, 282);
+            button11.Margin = new Padding(3, 4, 3, 4);
+            button11.Name = "button11";
+            button11.Size = new Size(66, 31);
+            button11.TabIndex = 31;
+            button11.Text = "Set";
+            button11.UseVisualStyleBackColor = true;
+            button11.Click += SetCAM_Click;
+            // 
+            // label8
+            // 
+            label8.Location = new Point(19, 286);
+            label8.Name = "label8";
+            label8.Size = new Size(186, 27);
+            label8.TabIndex = 30;
+            label8.Text = "Op 3 File Path:";
+            // 
+            // textBox13
+            // 
+            textBox13.Location = new Point(19, 317);
+            textBox13.Margin = new Padding(3, 4, 3, 4);
+            textBox13.Name = "textBox13";
+            textBox13.Size = new Size(323, 27);
+            textBox13.TabIndex = 29;
+            // 
+            // button10
+            // 
+            button10.Location = new Point(277, 209);
+            button10.Margin = new Padding(3, 4, 3, 4);
+            button10.Name = "button10";
+            button10.Size = new Size(66, 31);
+            button10.TabIndex = 28;
+            button10.Text = "Set";
+            button10.UseVisualStyleBackColor = true;
+            button10.Click += SetCAM_Click;
+            // 
+            // label5
+            // 
+            label5.Location = new Point(19, 213);
+            label5.Name = "label5";
+            label5.Size = new Size(186, 27);
+            label5.TabIndex = 27;
+            label5.Text = "Op 2 File Path:";
+            // 
+            // textBox8
+            // 
+            textBox8.Location = new Point(19, 244);
+            textBox8.Margin = new Padding(3, 4, 3, 4);
+            textBox8.Name = "textBox8";
+            textBox8.Size = new Size(323, 27);
+            textBox8.TabIndex = 26;
             // 
             // button4
             // 
@@ -287,7 +361,7 @@
             label23.Name = "label23";
             label23.Size = new Size(186, 27);
             label23.TabIndex = 21;
-            label23.Text = "CAM File Path:";
+            label23.Text = "Op 1 File Path:";
             // 
             // textBox6
             // 
@@ -300,7 +374,7 @@
             // radioButton5
             // 
             radioButton5.AutoSize = true;
-            radioButton5.Location = new Point(19, 77);
+            radioButton5.Location = new Point(19, 88);
             radioButton5.Margin = new Padding(3, 4, 3, 4);
             radioButton5.Name = "radioButton5";
             radioButton5.Size = new Size(117, 24);
@@ -311,7 +385,7 @@
             // radioButton6
             // 
             radioButton6.AutoSize = true;
-            radioButton6.Location = new Point(19, 44);
+            radioButton6.Location = new Point(19, 55);
             radioButton6.Margin = new Padding(3, 4, 3, 4);
             radioButton6.Name = "radioButton6";
             radioButton6.Size = new Size(96, 24);
@@ -321,19 +395,19 @@
             // 
             // label15
             // 
-            label15.Location = new Point(19, 234);
+            label15.Location = new Point(19, 489);
             label15.Name = "label15";
             label15.Size = new Size(186, 27);
             label15.TabIndex = 17;
-            label15.Text = "Setup/CAM Instructions:";
+            label15.Text = "Notes:";
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(19, 265);
+            textBox3.Location = new Point(19, 520);
             textBox3.Margin = new Padding(3, 4, 3, 4);
             textBox3.Multiline = true;
             textBox3.Name = "textBox3";
-            textBox3.Size = new Size(323, 192);
+            textBox3.Size = new Size(323, 117);
             textBox3.TabIndex = 17;
             // 
             // lotLabel
@@ -356,7 +430,7 @@
             // button3
             // 
             button3.Enabled = false;
-            button3.Location = new Point(1039, 811);
+            button3.Location = new Point(1039, 824);
             button3.Margin = new Padding(3, 4, 3, 4);
             button3.Name = "button3";
             button3.Size = new Size(117, 51);
@@ -389,7 +463,7 @@
             groupBox3.Margin = new Padding(3, 4, 3, 4);
             groupBox3.Name = "groupBox3";
             groupBox3.Padding = new Padding(3, 4, 3, 4);
-            groupBox3.Size = new Size(360, 393);
+            groupBox3.Size = new Size(360, 433);
             groupBox3.TabIndex = 20;
             groupBox3.TabStop = false;
             groupBox3.Text = "Inspection";
@@ -397,7 +471,7 @@
             // checkBox3
             // 
             checkBox3.AutoSize = true;
-            checkBox3.Location = new Point(21, 144);
+            checkBox3.Location = new Point(21, 166);
             checkBox3.Margin = new Padding(3, 4, 3, 4);
             checkBox3.Name = "checkBox3";
             checkBox3.Size = new Size(274, 24);
@@ -407,7 +481,7 @@
             // 
             // label19
             // 
-            label19.Location = new Point(21, 87);
+            label19.Location = new Point(21, 103);
             label19.Name = "label19";
             label19.Size = new Size(146, 27);
             label19.TabIndex = 21;
@@ -419,7 +493,7 @@
             comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox2.FormattingEnabled = true;
             comboBox2.Items.AddRange(new object[] { "None", "Standard", "Controlled" });
-            comboBox2.Location = new Point(174, 83);
+            comboBox2.Location = new Point(174, 99);
             comboBox2.Margin = new Padding(3, 4, 3, 4);
             comboBox2.Name = "comboBox2";
             comboBox2.Size = new Size(138, 28);
@@ -427,7 +501,7 @@
             // 
             // label18
             // 
-            label18.Location = new Point(109, 43);
+            label18.Location = new Point(109, 59);
             label18.Name = "label18";
             label18.Size = new Size(58, 27);
             label18.TabIndex = 19;
@@ -439,7 +513,7 @@
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.FormattingEnabled = true;
             comboBox1.Items.AddRange(new object[] { "None", "Standard", "Controlled" });
-            comboBox1.Location = new Point(174, 39);
+            comboBox1.Location = new Point(174, 55);
             comboBox1.Margin = new Padding(3, 4, 3, 4);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(138, 28);
@@ -447,15 +521,15 @@
             // 
             // label14
             // 
-            label14.Location = new Point(21, 198);
+            label14.Location = new Point(21, 234);
             label14.Name = "label14";
-            label14.Size = new Size(271, 27);
+            label14.Size = new Size(297, 27);
             label14.TabIndex = 17;
             label14.Text = "Associated Controlled Inspection Forms:";
             // 
             // textBox4
             // 
-            textBox4.Location = new Point(21, 228);
+            textBox4.Location = new Point(21, 265);
             textBox4.Margin = new Padding(3, 4, 3, 4);
             textBox4.Multiline = true;
             textBox4.Name = "textBox4";
@@ -613,6 +687,7 @@
             checkBox2.TabIndex = 30;
             checkBox2.Text = "Show Completed";
             checkBox2.UseVisualStyleBackColor = true;
+            checkBox2.CheckedChanged += checkBox2_CheckedChanged;
             // 
             // dataGridView1
             // 
@@ -622,7 +697,7 @@
             dataGridView1.AllowUserToResizeRows = false;
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.BackColor = SystemColors.ButtonFace;
             dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
             dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
@@ -642,6 +717,14 @@
             dataGridView1.Location = new Point(6, 163);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Control;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
@@ -714,6 +797,8 @@
             // tabPage2
             // 
             tabPage2.BackColor = SystemColors.Control;
+            tabPage2.Controls.Add(button13);
+            tabPage2.Controls.Add(groupBox6);
             tabPage2.Controls.Add(label4);
             tabPage2.Controls.Add(button9);
             tabPage2.Controls.Add(button7);
@@ -749,11 +834,52 @@
             tabPage2.TabIndex = 1;
             tabPage2.Text = "           Lot Info           ";
             // 
+            // button13
+            // 
+            button13.Location = new Point(960, 121);
+            button13.Margin = new Padding(3, 4, 3, 4);
+            button13.Name = "button13";
+            button13.Size = new Size(146, 33);
+            button13.TabIndex = 30;
+            button13.Text = "Open Drawing";
+            button13.UseVisualStyleBackColor = true;
+            button13.Click += button13_Click;
+            // 
+            // groupBox6
+            // 
+            groupBox6.Controls.Add(label9);
+            groupBox6.Controls.Add(textBox14);
+            groupBox6.Location = new Point(21, 616);
+            groupBox6.Margin = new Padding(3, 4, 3, 4);
+            groupBox6.Name = "groupBox6";
+            groupBox6.Padding = new Padding(3, 4, 3, 4);
+            groupBox6.Size = new Size(382, 200);
+            groupBox6.TabIndex = 21;
+            groupBox6.TabStop = false;
+            groupBox6.Text = "Post-Machining";
+            // 
+            // label9
+            // 
+            label9.Location = new Point(19, 39);
+            label9.Name = "label9";
+            label9.Size = new Size(221, 27);
+            label9.TabIndex = 17;
+            label9.Text = "Post-Machining Instructions:";
+            // 
+            // textBox14
+            // 
+            textBox14.Location = new Point(19, 70);
+            textBox14.Margin = new Padding(3, 4, 3, 4);
+            textBox14.Multiline = true;
+            textBox14.Name = "textBox14";
+            textBox14.Size = new Size(348, 114);
+            textBox14.TabIndex = 17;
+            // 
             // label4
             // 
             label4.BackColor = Color.PaleGreen;
             label4.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label4.Location = new Point(960, 127);
+            label4.Location = new Point(960, 83);
             label4.Name = "label4";
             label4.Size = new Size(146, 27);
             label4.TabIndex = 28;
@@ -763,7 +889,7 @@
             // button9
             // 
             button9.Enabled = false;
-            button9.Location = new Point(832, 811);
+            button9.Location = new Point(832, 824);
             button9.Margin = new Padding(3, 4, 3, 4);
             button9.Name = "button9";
             button9.Size = new Size(171, 51);
@@ -788,18 +914,18 @@
             // 
             groupBox4.Controls.Add(label20);
             groupBox4.Controls.Add(textBox5);
-            groupBox4.Location = new Point(21, 615);
+            groupBox4.Location = new Point(811, 613);
             groupBox4.Margin = new Padding(3, 4, 3, 4);
             groupBox4.Name = "groupBox4";
             groupBox4.Padding = new Padding(3, 4, 3, 4);
-            groupBox4.Size = new Size(382, 259);
+            groupBox4.Size = new Size(360, 203);
             groupBox4.TabIndex = 20;
             groupBox4.TabStop = false;
             groupBox4.Text = "Finishing";
             // 
             // label20
             // 
-            label20.Location = new Point(19, 56);
+            label20.Location = new Point(19, 39);
             label20.Name = "label20";
             label20.Size = new Size(186, 27);
             label20.TabIndex = 17;
@@ -807,11 +933,11 @@
             // 
             // textBox5
             // 
-            textBox5.Location = new Point(19, 87);
+            textBox5.Location = new Point(19, 70);
             textBox5.Margin = new Padding(3, 4, 3, 4);
             textBox5.Multiline = true;
             textBox5.Name = "textBox5";
-            textBox5.Size = new Size(348, 144);
+            textBox5.Size = new Size(323, 117);
             textBox5.TabIndex = 17;
             // 
             // groupBox1
@@ -836,7 +962,7 @@
             // 
             label13.Location = new Point(19, 234);
             label13.Name = "label13";
-            label13.Size = new Size(106, 27);
+            label13.Size = new Size(147, 27);
             label13.TabIndex = 17;
             label13.Text = "Material Specs:";
             // 
@@ -909,6 +1035,17 @@
             timer1.Interval = 2000;
             timer1.Tick += timer1_Tick;
             // 
+            // button12
+            // 
+            button12.Enabled = false;
+            button12.Location = new Point(76, 394);
+            button12.Margin = new Padding(3, 4, 3, 4);
+            button12.Name = "button12";
+            button12.Size = new Size(171, 51);
+            button12.TabIndex = 32;
+            button12.Text = "Mark Completed";
+            button12.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -935,6 +1072,8 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
+            groupBox6.ResumeLayout(false);
+            groupBox6.PerformLayout();
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
             groupBox1.ResumeLayout(false);
@@ -1017,5 +1156,16 @@
         private CheckBox checkBox3;
         private Button button9;
         private Label label4;
+        private Button button11;
+        private Label label8;
+        private TextBox textBox13;
+        private Button button10;
+        private Label label5;
+        private TextBox textBox8;
+        private GroupBox groupBox6;
+        private Label label9;
+        private TextBox textBox14;
+        private Button button13;
+        private Button button12;
     }
 }

@@ -1,0 +1,26 @@
+40  // quantity
+12-02-P0192-0001  // part number
+22392  // purchase order
+4  // purchase order line
+NRT  // customer
+Retaining Top Plate  // part name
+0  // material option
+0  // certifications required
+.500" x 2.000" 6061, 2.2" LOC&&&&QTY 40 in stock from previous run  // material specs text box
+1  // CAM option
+  // CAM file path
+  // Setup or CAM instructions
+2  // FAI type
+2  // In-process inspection
+  // Associated controlled inspection forms
+Hard Black Ano  // Finishing instructions
+0  // cert of conformance required
+1  // is completed
+
+
+
+
+
+
+
+

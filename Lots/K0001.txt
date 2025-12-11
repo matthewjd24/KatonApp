@@ -1,0 +1,26 @@
+220  // quantity
+T-826269-2536  // part number
+569930  // purchase order
+1  // purchase order line
+HP  // customer
+Insert Fixture D  // part name
+2  // material option
+0  // certifications required
+  // material specs text box
+2  // CAM option
+Z:\HP Work\569930\BC\2536c_insert_fixture_D_082925.bbcd  // op 1 file path
+  // Setup or CAM instructions
+1  // FAI type
+1  // In-process inspection
+  // Associated controlled inspection forms
+Hard anodize  // Finishing instructions
+1  // cert of conformance required
+0
+  // op 2 file path
+  // op 3 file path
+Z:\Zeta\Purchase Order_KPM003.pdf  // drawing file path
+
+
+
+
+

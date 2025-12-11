@@ -1,0 +1,26 @@
+40  // quantity
+12-02-P0188-0001  // part number
+22392  // purchase order
+2  // purchase order line
+NRT  // customer
+AQC EOAT Shaft  // part name
+2  // material option
+0  // certifications required
+2.635" diameter 6061, 9.6" LOC  // material specs text box
+1  // CAM option
+  // CAM file path
+OP1 - Haas Lathe&&OP2 - 5-axis mill  // Setup or CAM instructions
+2  // FAI type
+2  // In-process inspection
+  // Associated controlled inspection forms
+Harb Black Ano  // Finishing instructions
+0  // cert of conformance required
+0
+
+
+
+
+
+
+
+
