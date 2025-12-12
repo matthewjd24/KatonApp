@@ -48,6 +48,9 @@
             qtyLabel = new Label();
             label12 = new Label();
             groupBox2 = new GroupBox();
+            button12 = new Button();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            clearFileToolStripMenuItem = new ToolStripMenuItem();
             button11 = new Button();
             label8 = new Label();
             textBox13 = new TextBox();
@@ -66,13 +69,12 @@
             button3 = new Button();
             pictureBox1 = new PictureBox();
             groupBox3 = new GroupBox();
+            button14 = new Button();
             checkBox3 = new CheckBox();
             label19 = new Label();
             comboBox2 = new ComboBox();
             label18 = new Label();
             comboBox1 = new ComboBox();
-            label14 = new Label();
-            textBox4 = new TextBox();
             label21 = new Label();
             lineLabel = new Label();
             tabControl1 = new TabControl();
@@ -115,8 +117,8 @@
             radioButton2 = new RadioButton();
             radioButton1 = new RadioButton();
             timer1 = new System.Windows.Forms.Timer(components);
-            button12 = new Button();
             groupBox2.SuspendLayout();
+            contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             groupBox3.SuspendLayout();
             tabControl1.SuspendLayout();
@@ -285,10 +287,38 @@
             groupBox2.Margin = new Padding(3, 4, 3, 4);
             groupBox2.Name = "groupBox2";
             groupBox2.Padding = new Padding(3, 4, 3, 4);
-            groupBox2.Size = new Size(360, 653);
+            groupBox2.Size = new Size(360, 712);
             groupBox2.TabIndex = 18;
             groupBox2.TabStop = false;
             groupBox2.Text = "Job Setup/CAM";
+            // 
+            // button12
+            // 
+            button12.BackColor = Color.FromArgb(255, 200, 200);
+            button12.ContextMenuStrip = contextMenuStrip1;
+            button12.ForeColor = Color.Black;
+            button12.Location = new Point(79, 367);
+            button12.Margin = new Padding(3, 4, 3, 4);
+            button12.Name = "button12";
+            button12.Size = new Size(187, 47);
+            button12.TabIndex = 32;
+            button12.Text = "No Setup Instructions";
+            button12.UseVisualStyleBackColor = false;
+            button12.Click += fileButton_Click;
+            // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.ImageScalingSize = new Size(20, 20);
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { clearFileToolStripMenuItem });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(140, 28);
+            // 
+            // clearFileToolStripMenuItem
+            // 
+            clearFileToolStripMenuItem.Name = "clearFileToolStripMenuItem";
+            clearFileToolStripMenuItem.Size = new Size(139, 24);
+            clearFileToolStripMenuItem.Text = "Clear File";
+            clearFileToolStripMenuItem.Click += clearFileToolStripMenuItem_Click;
             // 
             // button11
             // 
@@ -395,7 +425,7 @@
             // 
             // label15
             // 
-            label15.Location = new Point(19, 489);
+            label15.Location = new Point(19, 431);
             label15.Name = "label15";
             label15.Size = new Size(186, 27);
             label15.TabIndex = 17;
@@ -403,11 +433,11 @@
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(19, 520);
+            textBox3.Location = new Point(19, 462);
             textBox3.Margin = new Padding(3, 4, 3, 4);
             textBox3.Multiline = true;
             textBox3.Name = "textBox3";
-            textBox3.Size = new Size(323, 117);
+            textBox3.Size = new Size(323, 227);
             textBox3.TabIndex = 17;
             // 
             // lotLabel
@@ -452,21 +482,34 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(button14);
             groupBox3.Controls.Add(checkBox3);
             groupBox3.Controls.Add(label19);
             groupBox3.Controls.Add(comboBox2);
             groupBox3.Controls.Add(label18);
             groupBox3.Controls.Add(comboBox1);
-            groupBox3.Controls.Add(label14);
-            groupBox3.Controls.Add(textBox4);
             groupBox3.Location = new Point(811, 163);
             groupBox3.Margin = new Padding(3, 4, 3, 4);
             groupBox3.Name = "groupBox3";
             groupBox3.Padding = new Padding(3, 4, 3, 4);
-            groupBox3.Size = new Size(360, 433);
+            groupBox3.Size = new Size(360, 418);
             groupBox3.TabIndex = 20;
             groupBox3.TabStop = false;
             groupBox3.Text = "Inspection";
+            // 
+            // button14
+            // 
+            button14.BackColor = Color.FromArgb(255, 200, 200);
+            button14.ContextMenuStrip = contextMenuStrip1;
+            button14.ForeColor = Color.Black;
+            button14.Location = new Point(88, 234);
+            button14.Margin = new Padding(3, 4, 3, 4);
+            button14.Name = "button14";
+            button14.Size = new Size(187, 47);
+            button14.TabIndex = 33;
+            button14.Text = "No Inspection Form";
+            button14.UseVisualStyleBackColor = false;
+            button14.Click += fileButton_Click;
             // 
             // checkBox3
             // 
@@ -519,23 +562,6 @@
             comboBox1.Size = new Size(138, 28);
             comboBox1.TabIndex = 18;
             // 
-            // label14
-            // 
-            label14.Location = new Point(21, 234);
-            label14.Name = "label14";
-            label14.Size = new Size(297, 27);
-            label14.TabIndex = 17;
-            label14.Text = "Associated Controlled Inspection Forms:";
-            // 
-            // textBox4
-            // 
-            textBox4.Location = new Point(21, 265);
-            textBox4.Margin = new Padding(3, 4, 3, 4);
-            textBox4.Multiline = true;
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(323, 144);
-            textBox4.TabIndex = 17;
-            // 
             // label21
             // 
             label21.Location = new Point(984, 52);
@@ -582,7 +608,7 @@
             tabPage1.Padding = new Padding(3);
             tabPage1.Size = new Size(1216, 891);
             tabPage1.TabIndex = 0;
-            tabPage1.Text = "         Work List           ";
+            tabPage1.Text = "           Work List            ";
             tabPage1.Click += tabPage1_Click;
             // 
             // groupBox5
@@ -832,35 +858,38 @@
             tabPage2.Padding = new Padding(3);
             tabPage2.Size = new Size(1216, 891);
             tabPage2.TabIndex = 1;
-            tabPage2.Text = "           Lot Info           ";
+            tabPage2.Text = "            Lot Info             ";
             // 
             // button13
             // 
-            button13.Location = new Point(960, 121);
+            button13.BackColor = Color.FromArgb(255, 200, 200);
+            button13.ContextMenuStrip = contextMenuStrip1;
+            button13.ForeColor = Color.Black;
+            button13.Location = new Point(960, 118);
             button13.Margin = new Padding(3, 4, 3, 4);
             button13.Name = "button13";
-            button13.Size = new Size(146, 33);
+            button13.Size = new Size(146, 37);
             button13.TabIndex = 30;
-            button13.Text = "Open Drawing";
-            button13.UseVisualStyleBackColor = true;
-            button13.Click += button13_Click;
+            button13.Text = "No Drawing";
+            button13.UseVisualStyleBackColor = false;
+            button13.Click += fileButton_Click;
             // 
             // groupBox6
             // 
             groupBox6.Controls.Add(label9);
             groupBox6.Controls.Add(textBox14);
-            groupBox6.Location = new Point(21, 616);
+            groupBox6.Location = new Point(21, 594);
             groupBox6.Margin = new Padding(3, 4, 3, 4);
             groupBox6.Name = "groupBox6";
             groupBox6.Padding = new Padding(3, 4, 3, 4);
-            groupBox6.Size = new Size(382, 200);
+            groupBox6.Size = new Size(382, 281);
             groupBox6.TabIndex = 21;
             groupBox6.TabStop = false;
             groupBox6.Text = "Post-Machining";
             // 
             // label9
             // 
-            label9.Location = new Point(19, 39);
+            label9.Location = new Point(19, 28);
             label9.Name = "label9";
             label9.Size = new Size(221, 27);
             label9.TabIndex = 17;
@@ -868,11 +897,11 @@
             // 
             // textBox14
             // 
-            textBox14.Location = new Point(19, 70);
+            textBox14.Location = new Point(19, 59);
             textBox14.Margin = new Padding(3, 4, 3, 4);
             textBox14.Multiline = true;
             textBox14.Name = "textBox14";
-            textBox14.Size = new Size(348, 114);
+            textBox14.Size = new Size(348, 199);
             textBox14.TabIndex = 17;
             // 
             // label4
@@ -914,18 +943,18 @@
             // 
             groupBox4.Controls.Add(label20);
             groupBox4.Controls.Add(textBox5);
-            groupBox4.Location = new Point(811, 613);
+            groupBox4.Location = new Point(811, 594);
             groupBox4.Margin = new Padding(3, 4, 3, 4);
             groupBox4.Name = "groupBox4";
             groupBox4.Padding = new Padding(3, 4, 3, 4);
-            groupBox4.Size = new Size(360, 203);
+            groupBox4.Size = new Size(360, 222);
             groupBox4.TabIndex = 20;
             groupBox4.TabStop = false;
             groupBox4.Text = "Finishing";
             // 
             // label20
             // 
-            label20.Location = new Point(19, 39);
+            label20.Location = new Point(19, 28);
             label20.Name = "label20";
             label20.Size = new Size(186, 27);
             label20.TabIndex = 17;
@@ -933,11 +962,11 @@
             // 
             // textBox5
             // 
-            textBox5.Location = new Point(19, 70);
+            textBox5.Location = new Point(19, 59);
             textBox5.Margin = new Padding(3, 4, 3, 4);
             textBox5.Multiline = true;
             textBox5.Name = "textBox5";
-            textBox5.Size = new Size(323, 117);
+            textBox5.Size = new Size(323, 147);
             textBox5.TabIndex = 17;
             // 
             // groupBox1
@@ -953,7 +982,7 @@
             groupBox1.Margin = new Padding(3, 4, 3, 4);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(3, 4, 3, 4);
-            groupBox1.Size = new Size(382, 433);
+            groupBox1.Size = new Size(382, 414);
             groupBox1.TabIndex = 16;
             groupBox1.TabStop = false;
             groupBox1.Text = "Material";
@@ -972,7 +1001,7 @@
             textBox2.Margin = new Padding(3, 4, 3, 4);
             textBox2.Multiline = true;
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(348, 144);
+            textBox2.Size = new Size(348, 123);
             textBox2.TabIndex = 17;
             // 
             // checkBox1
@@ -1035,17 +1064,6 @@
             timer1.Interval = 2000;
             timer1.Tick += timer1_Tick;
             // 
-            // button12
-            // 
-            button12.Enabled = false;
-            button12.Location = new Point(76, 394);
-            button12.Margin = new Padding(3, 4, 3, 4);
-            button12.Name = "button12";
-            button12.Size = new Size(171, 51);
-            button12.TabIndex = 32;
-            button12.Text = "Mark Completed";
-            button12.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -1060,6 +1078,7 @@
             Load += Form1_Load_1;
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
+            contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
@@ -1108,8 +1127,6 @@
         private RadioButton radioButton5;
         private RadioButton radioButton6;
         private GroupBox groupBox3;
-        private Label label14;
-        private TextBox textBox4;
         private Label label19;
         private ComboBox comboBox2;
         private Label label18;
@@ -1167,5 +1184,8 @@
         private TextBox textBox14;
         private Button button13;
         private Button button12;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem clearFileToolStripMenuItem;
+        private Button button14;
     }
 }

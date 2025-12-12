@@ -29,7 +29,7 @@ namespace Updater
                 if (!alreadyExists) { // file exists in the shared drive but not in the C: drive
                     filesToCopy.Add(x);
                 }
-                else if (!x.Contains(".dll")) { // dlls wont change so dont copy them every time
+                else if (!x.Contains(".dll") || x.Contains("KatonApp.dll")) { // dlls wont change so dont copy them every time
                     // copy other types of files every time, because they likely changed
                     filesToCopy.Add(x);
                 }
@@ -46,7 +46,7 @@ namespace Updater
             }
 
 
-            Process.Start(@"C:\Katon App\Katon App\KatonApp.exe"); // starts the program again
+            Process.Start(@"C:\Katon App\App Files\KatonApp.exe"); // starts the program again
         }
     }
 }

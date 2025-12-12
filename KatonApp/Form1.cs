@@ -6,11 +6,13 @@ namespace KatonApp
 {
     public partial class Form1 : Form
     {
-        public static int versionNum = 1;
+        public static int versionNum = 2;
         int? lotNumInt;
-        //public static string lotsFolder = @"Z:\Zeta\Katon App\Lots";
-        public static string lotsFolder = @"C:\Users\USER\Documents\GitHub\KatonApp\Lots";
+        public static string lotsFolder = @"Z:\Zeta\Katon App\Lots";
+        public static string ncrsFolder = @"Z:\Zeta\Katon App\NCRs";
+        //public static string lotsFolder = @"C:\Users\USER\Documents\GitHub\KatonApp\Lots";
 
+        DataTable table;
         DataView view;
         public Form1() {
             InitializeComponent();
@@ -29,7 +31,7 @@ namespace KatonApp
                     continue;
                 }
                 takenNumbers.Add(num);
-                Debug.WriteLine(num);
+                //Debug.WriteLine(num);
             }
             New_Lot form = new New_Lot();
             form.lotNum = takenNumbers.Max() + 1;
@@ -64,7 +66,7 @@ namespace KatonApp
 
             string[] matches = Directory.GetFiles(lotsFolder, "*");
 
-            DataTable table = new DataTable();
+            table = new DataTable();
 
             // define columns
             table.Columns.Add("Lot", typeof(string));
@@ -73,10 +75,14 @@ namespace KatonApp
             table.Columns.Add("Qty", typeof(int));
             table.Columns.Add("Customer", typeof(string));
             table.Columns.Add("PO", typeof(string));
+            table.Columns.Add("Open NCRs", typeof(int));
             table.Columns.Add("Completed", typeof(string));
 
             foreach (var x in matches) {
+
                 string name = Path.GetFileName(x).Replace(".txt", "");
+                int ncrCount = Directory.EnumerateFiles(ncrsFolder, "*")
+                    .Count(file => File.ReadLines(file).FirstOrDefault()?.Contains(name) == true);
                 var lines = File.ReadAllLines(x);
                 DataRow row = table.NewRow();
                 row["Lot"] = name;
@@ -87,6 +93,7 @@ namespace KatonApp
                 row["Customer"] = RemoveTextComment(lines[4]);
                 row["Part Name"] = RemoveTextComment(lines[5]);
                 row["PO"] = RemoveTextComment(lines[2]);
+                if (ncrCount > 0) row["Open NCRs"] = ncrCount;
 
                 table.Rows.Add(row);
             }
@@ -171,9 +178,6 @@ namespace KatonApp
 
             comboBox1.SelectedIndex = int.Parse(RemoveTextComment(lines[12]));
             comboBox2.SelectedIndex = int.Parse(RemoveTextComment(lines[13]));
-            string associatedForms = RemoveTextComment(lines[14]);
-            associatedForms = associatedForms.Replace("&&", Environment.NewLine);
-            textBox4.Text = associatedForms;
             string finishingInstructions = RemoveTextComment(lines[15]);
             finishingInstructions = finishingInstructions.Replace("&&", Environment.NewLine);
             textBox5.Text = finishingInstructions;
@@ -190,6 +194,36 @@ namespace KatonApp
                 label4.Text = "";
             }
             button13.Tag = RemoveTextComment(lines[20]);
+            if (button13.Tag != null && button13.Tag.ToString().Length > 1) {
+                button13.Text = "Open Drawing";
+                button13.BackColor = Color.FromArgb(192, 255, 192);
+            }
+            else {
+                button13.Text = "No Drawing";
+                button13.BackColor = Color.FromArgb(255, 200, 200);
+            }
+            textBox14.Text = RemoveTextComment(lines[21]);
+
+            button12.Tag = RemoveTextComment(lines[22]);
+            if (button12.Tag != null && button12.Tag.ToString().Length > 1) {
+                button12.Text = "Setup Instructions";
+                button12.BackColor = Color.FromArgb(192, 255, 192);
+            }
+            else {
+                button12.Text = "No Setup Instructions";
+                button12.BackColor = Color.FromArgb(255, 200, 200);
+            }
+
+
+            button14.Tag = RemoveTextComment(lines[14]);
+            if (button14.Tag != null && button14.Tag.ToString().Length > 1) {
+                button14.Text = "Inspection Form";
+                button14.BackColor = Color.FromArgb(192, 255, 192);
+            }
+            else {
+                button14.Text = "No Inspection Form";
+                button14.BackColor = Color.FromArgb(255, 200, 200);
+            }
         }
 
         string RemoveTextComment(string input) {
@@ -223,6 +257,7 @@ namespace KatonApp
         }
 
         private void save_Click(object sender, EventArgs e) {
+            if (lotNumInt == null) return;
             string lotString = ConvertIntToLotNum(lotNumInt.Value);
             string fileName = lotsFolder + @"\" + lotString + ".txt";
             if (!File.Exists(fileName)) {
@@ -244,18 +279,20 @@ namespace KatonApp
             if (radioButton5.Checked) selectedCamOption = 1;
             else if (radioButton6.Checked) selectedCamOption = 2;
             lines[9] = selectedCamOption.ToString() + "  // CAM option";
-            lines[10] = textBox6.Text + "  // op 1 file path";
+            lines[10] = textBox6.Text + "  // Op 1 file path";
             lines[11] = textBox3.Text.Replace(Environment.NewLine, "&&") + "  // Setup or CAM instructions";
             lines[12] = comboBox1.SelectedIndex + "  // FAI type";
             lines[13] = comboBox2.SelectedIndex + "  // In-process inspection";
-            lines[14] = textBox4.Text.Replace(Environment.NewLine, "&&") + "  // Associated controlled inspection forms";
+            lines[14] = button14.Tag + "  // Associated controlled inspection forms";
             lines[15] = textBox5.Text.Replace(Environment.NewLine, "&&") + "  // Finishing instructions";
             int cOfCRequired = checkBox3.Checked ? 1 : 0;
-            lines[16] = cOfCRequired.ToString() + "  // cert of conformance required";
-            lines[17] = button9.Enabled ? "0" : "1" + "  // is completed";
-            lines[18] = textBox8.Text + "  // op 2 file path";
-            lines[19] = textBox13.Text + "  // op 3 file path";
-            lines[20] = button13.Tag.ToString() + "  // drawing file path";
+            lines[16] = cOfCRequired.ToString() + "  // Cert of conformance required";
+            lines[17] = button9.Enabled ? "0" : "1" + "  // Is completed";
+            lines[18] = textBox8.Text + "  // Op 2 file path";
+            lines[19] = textBox13.Text + "  // Op 3 file path";
+            lines[20] = button13.Tag.ToString() + "  // Drawing file path";
+            lines[21] = textBox14.Text + "  // Post-machining instructions";
+            lines[22] = button12.Tag.ToString() + "  // Setup instructions file";
 
             File.WriteAllText(fileName, "");
             File.WriteAllLines(fileName, lines.ToArray());
@@ -310,11 +347,50 @@ namespace KatonApp
         }
 
         private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
-            //foreach (DataGridViewColumn col in dataGridView1.Columns) {
-            //    col.SortMode = DataGridViewColumnSortMode.NotSortable;
-            //}
-            dataGridView1.Columns[1].MinimumWidth = 160;
-            dataGridView1.Columns[2].MinimumWidth = 220;
+            // 1. Hard-coded color list
+            var colorPool = new List<Color>
+            {
+                Color.FromArgb(215, 214, 255),
+                Color.FromArgb(209, 255, 213),
+                Color.FromArgb(250, 255, 191),
+                Color.FromArgb(255, 206, 245),
+                Color.FromArgb(201, 255, 246),
+                Color.FromArgb(255, 223, 196),
+                Color.FromArgb(214, 214, 214)
+            };
+
+            // 2. Get distinct PO values
+            var distinctPOs = table
+                .AsEnumerable()
+                .Select(r => r.Field<string>("PO"))
+                .Where(po => po != null)
+                .Distinct()
+                .ToList();
+
+            // 3. Assign colors to PO values
+            var poColorMap = new Dictionary<string, Color>();
+
+            int colorIndex = 0;
+            foreach (var po in distinctPOs) {
+                if (colorIndex < colorPool.Count)
+                    poColorMap[po] = colorPool[colorIndex++];
+                else
+                    poColorMap[po] = Color.White;
+            }
+
+            // 4. Apply colors to DataGridView rows
+            int poColumnIndex = dataGridView1.Columns["PO"].Index;
+
+            foreach (DataGridViewRow row in dataGridView1.Rows) {
+                if (row.IsNewRow)
+                    continue;
+
+                var poValue = row.Cells[poColumnIndex].Value as string;
+
+                if (poValue != null && poColorMap.TryGetValue(poValue, out var color)) {
+                    row.Cells[poColumnIndex].Style.BackColor = color;
+                }
+            }
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e) {
@@ -326,7 +402,7 @@ namespace KatonApp
             }
         }
 
-        private void button13_Click(object sender, EventArgs e) {
+        private void fileButton_Click(object sender, EventArgs e) {
             Button btn = (Button)sender;
             if (btn.Tag != null && btn.Tag.ToString().Length > 0) {
                 // open file
@@ -340,8 +416,27 @@ namespace KatonApp
                 OpenFileDialog ofd = new OpenFileDialog();
                 if (ofd.ShowDialog() == DialogResult.OK) {
                     btn.Tag = ofd.FileName;
+                    btn.BackColor = Color.FromArgb(192, 255, 192);
+                    if (btn == button13) btn.Text = "Open Drawing";
+                    else if (btn == button12) btn.Text = "Setup Instructions";
+                    else if (btn == button14) btn.Text = "Inspection Form";
                 }
             }
+        }
+
+        private void clearFileToolStripMenuItem_Click(object sender, EventArgs e) {
+            var menuItem = (ToolStripMenuItem)sender;
+            var menu = (ContextMenuStrip)menuItem.Owner;
+            var sourceButton = menu.SourceControl as Button;
+
+            if (sourceButton == null)
+                return;
+
+            sourceButton.Tag = "";
+            sourceButton.BackColor = Color.FromArgb(255, 200, 200);
+            if (sourceButton == button13) sourceButton.Text = "No Drawing";
+            else if (sourceButton == button12) sourceButton.Text = "No Setup Instructions";
+            else if (sourceButton == button14) sourceButton.Text = "No Inspection Form";
         }
     }
 }
